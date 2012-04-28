@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+var fs = require('fs'),
+    jsdom = require('jsdom'),
+    domutils = require('../lib/domutils'),
+    source = fs.readFileSync('/dev/stdin'),
+    document = jsdom.jsdom(source),
+    window = document.createWindow();
+
+var total = 0,
+    lastXPath = '';
+
+domutils.walk(window.document, function (node) {
+  // Print the total for each text node that is a child of an element node. This
+  // eliminates spurious counts for text nodes at the beginning and end of the 
+  // document.
+  if (node.nodeType === 3 && node.parentNode && node.parentNode.nodeType === 1) {
+    var data = domutils.nodeData(node);
+    var xpath = domutils.xpath(node.parentNode);
+    if (xpath !== lastXPath && xpath.trim() !== '') {
+      console.log(total + ' ' + xpath);
+      lastXPath = xpath;
+    }
+    total += data.length;
+  }
+});

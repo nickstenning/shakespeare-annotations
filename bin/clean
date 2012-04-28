@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+var Lazy = require('lazy');
+
+var clean = function (obj) {
+  delete obj['updated'];
+  delete obj['annotator_schema_version'];
+  delete obj['tags'];
+  
+  obj['finalsclub_id'] = obj['id'];
+  delete obj['id'];
+
+  obj['permissions'] = {'read': ['group:__world__']};
+  obj['ranges'] = [obj['ranges']];
+  obj['ranges'][0]['end'] = obj['ranges'][0]['start'];
+  obj['text'] = obj['text'].slice(2,-1).replace(/''/g, "'");
+  obj['quote'] = obj['quote'].slice(2,-1).replace(/''/g, "'");
+  obj['consumer'] = '39fc339cf058bd22176771b3e32b7448';
+
+  return obj;
+}
+
+process.stdin.resume();
+
+Lazy(process.stdin)
+  .lines
+  .forEach(function (line) { console.log(JSON.stringify(clean(JSON.parse(line)))); })

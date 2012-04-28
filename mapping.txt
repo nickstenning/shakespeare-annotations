@@ -1,0 +1,9 @@
+A Midsummer Night  's Dream 16	midsummer_nights_dream
+Coriolanus 381	coriolanus
+Hamlet 5	hamlet
+King Lear 21	lear
+Othello 20	othello
+The Tempest 14	tempest
+The Tragedy of Macbeth 7	macbeth
+The Tragedy of Romeo and Juliet 4	romeo_and_juliet
+Twelfth Night, Or What You Will 341	twelfth_night

@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+var jsdom = require('jsdom'),
+    domutils = require('../lib/domutils');
+
+var htmlToText = function (html) {
+  var document = jsdom.jsdom(html),
+      window = document.createWindow(),
+      text = [];
+  
+  domutils.walk(window.document, function (node) {
+    if (node.nodeType === 3) {
+      text.push(domutils.nodeData(node));
+    }
+  });
+
+  return text.join('');
+}
+
+var data = [];
+
+process.stdin.on('data', function (d) {
+  data.push(d);
+});
+
+process.stdin.on('end', function () {
+  data = data.join('');
+  process.stdout.write(htmlToText(data));
+});
+
+process.stdin.resume();

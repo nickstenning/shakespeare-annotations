@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+var data = [];
+
+process.stdin.on('data', function (d) {
+  data.push(d);
+});
+
+process.stdin.on('end', function () {
+  JSON.parse(data.join('')).forEach(function (x) {
+    console.log(JSON.stringify(x));
+  });
+});
+
+process.stdin.resume();
