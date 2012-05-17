@@ -8,8 +8,9 @@ var htmlToText = function (html) {
       text = [];
   
   domutils.walk(window.document, function (node) {
-    if (node.nodeType === 3) {
-      text.push(domutils.nodeData(node));
+    if (node.nodeType === 3 && node.parentNode && node.parentNode.nodeType === 1) {
+      // Add a space to ensure that words are separated
+      text.push(domutils.nodeData(node) + ' ');
     }
   });
 

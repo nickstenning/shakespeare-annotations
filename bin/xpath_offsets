@@ -20,6 +20,7 @@ domutils.walk(window.document, function (node) {
       console.log(total + ' ' + xpath);
       lastXPath = xpath;
     }
-    total += data.length;
+    // Plus one to account for the space added by html_to_text
+    total += data.length + 1;
   }
 });
