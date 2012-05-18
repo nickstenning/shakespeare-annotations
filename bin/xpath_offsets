@@ -16,11 +16,10 @@ domutils.walk(window.document, function (node) {
   if (node.nodeType === 3 && node.parentNode && node.parentNode.nodeType === 1) {
     var data = domutils.nodeData(node);
     var xpath = domutils.xpath(node.parentNode);
-    if (xpath !== lastXPath && xpath.trim() !== '') {
+    if (xpath !== lastXPath) {
       console.log(total + ' ' + xpath);
       lastXPath = xpath;
     }
-    // Plus one to account for the space added by html_to_text
-    total += data.length + 1;
+    total += data.length;
   }
 });
