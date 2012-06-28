@@ -6,8 +6,7 @@ var fs = require('fs'),
     document = jsdom.jsdom(source),
     window = document.createWindow();
 
-var total = 0,
-    lastXPath = '';
+var total = 0;
 
 domutils.walk(window.document, function (node) {
   // Print the total for each text node that is a child of an element node. This
@@ -16,10 +15,7 @@ domutils.walk(window.document, function (node) {
   if (node.nodeType === 3 && node.parentNode && node.parentNode.nodeType === 1) {
     var data = domutils.nodeData(node);
     var xpath = domutils.xpath(node.parentNode);
-    if (xpath !== lastXPath) {
-      console.log(total + ' ' + xpath);
-      lastXPath = xpath;
-    }
-    total += data.length;
+    console.log(total + ' ' + xpath);
+    total += data.length + 1;
   }
 });
