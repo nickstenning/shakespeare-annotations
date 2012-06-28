@@ -16,6 +16,6 @@ domutils.walk(window.document, function (node) {
     var data = domutils.nodeData(node);
     var xpath = domutils.xpath(node.parentNode);
     console.log(total + ' ' + xpath);
-    total += data.length + 1;
+    total += data.length;
   }
 });

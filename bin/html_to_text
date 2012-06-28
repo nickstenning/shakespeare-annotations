@@ -9,7 +9,7 @@ var htmlToText = function (html) {
   
   domutils.walk(window.document, function (node) {
     if (node.nodeType === 3 && node.parentNode && node.parentNode.nodeType === 1) {
-      text.push(domutils.nodeData(node) + ' ');
+      text.push(domutils.nodeData(node));
     }
   });
 

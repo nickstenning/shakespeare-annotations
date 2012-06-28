@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+var fs = require('fs'),
+    jsdom = require('jsdom'),
+    domutils = require('../lib/domutils'),
+    source = fs.readFileSync('/dev/stdin'),
+    document = jsdom.jsdom(source),
+    window = document.createWindow();
+
+domutils.walk(window.document, function (node) {
+  if (node.nodeType === 3 && node.parentNode && node.parentNode.nodeType === 1) {
+    node.data = domutils.nodeData(node);
+  }
+});
+
+var total = 0;
+
+domutils.walk(window.document, function (node) {
+  if (node.nodeType === 1) {
+    var len = node.textContent.length;
+    if (len > 0) {
+      console.log(total + ' ' + len + ' ' + node.tagName + '.' + node.className);
+    }
+  }
+
+  if (node.nodeType === 3 && node.parentNode && node.parentNode.nodeType === 1) {
+    total += node.data.length;
+  }
+});
