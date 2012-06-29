@@ -3,6 +3,7 @@
 from __future__ import print_function
 
 import json
+import os
 import sys
 
 def markup_object(line):
@@ -19,13 +20,18 @@ def markup_object(line):
     }
 
 def main():
-    _, text_file, markup_file = sys.argv
+    _, text_file, markup_file, annotations_file = sys.argv
+
+    play = os.path.basename(text_file).rsplit('.', 2)[0]
+
     text = open(text_file).read()
     markup = open(markup_file)
+    annotations = open(annotations_file)
 
     out = {
         'text': [],
-        'typography': []
+        'typography': [],
+        'semantics': []
     }
 
     out['text'].append({
@@ -35,6 +41,20 @@ def main():
 
     for line in markup:
         out['typography'].append(markup_object(line.strip()))
+
+    for line in annotations:
+        ann = json.loads(line)
+        if ann['uri'] == 'http://openshakespeare.org/work/%s' % play:
+            out['semantics'].append({
+                'start': ann['ranges'][0]['start'],
+                'end': ann['ranges'][0]['end'],
+                'type': 'textus:comment',
+                'user': 'import@openshakespeare.org',
+                'date': ann['created'],
+                'payload': {
+                    'text': ann['text']
+                }
+            })
 
     print(json.dumps(out))
 

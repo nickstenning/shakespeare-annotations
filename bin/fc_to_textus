@@ -21,8 +21,10 @@ def convert_annotation(ann):
     new_ranges = []
 
     for r in ann['ranges']:
-        r['start'], r['startOffset'] = xptr_fc_to_xptr_os(fc_play, r['start'], r['startOffset'])
-        r['end'],   r['endOffset']   = xptr_fc_to_xptr_os(fc_play, r['end'], r['endOffset'])
+        r['start'] = xptr_fc_to_offset_os(fc_play, r['start'], r['startOffset'])
+        r['end'] = xptr_fc_to_offset_os(fc_play, r['end'], r['endOffset'])
+        del r['startOffset']
+        del r['endOffset']
 
     ann['uri'] = 'http://openshakespeare.org/work/' + os_play
 
